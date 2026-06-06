@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "spatialmem-perception"
+version = "0.1.0a0"
+description = "Perception adapters for SpatialMem — turn RGB(-D) frames into world-frame Detections. Companion to the numpy-only spatialmem memory core."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+authors = [{ name = "wikieden" }]
+dependencies = ["spatialmem", "numpy"]
+
+[project.optional-dependencies]
+clip = ["open-clip-torch", "torch", "pillow"]
+dev = ["pytest", "ruff"]
+
+[project.urls]
+Core = "https://github.com/wikieden/spatialmem"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/spatialmem_perception"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

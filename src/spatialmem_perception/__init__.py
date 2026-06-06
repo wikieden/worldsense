@@ -1,0 +1,31 @@
+"""spatialmem-perception — perception adapters for SpatialMem.
+
+Companion to the numpy-only `spatialmem` memory core. Turns RGB(-D) frames into
+world-frame `spatialmem.Detection`s via the `spatialmem.PerceptionAdapter` seam.
+Concrete adapters (Cosmos 3, ConceptGraphs) + the camera->world geometry lift +
+image-crop encoders live here so the core stays perception-free.
+"""
+
+from __future__ import annotations
+
+from .encoders import ImageEncoder, OpenClipImageEncoder, l2_normalize
+from .geometry import (
+    oriented_box_corners,
+    rpy_to_matrix,
+    transform_point,
+    transform_points,
+    world_aabb_from_obb,
+)
+
+__version__ = "0.1.0a0"
+
+__all__ = [
+    "ImageEncoder",
+    "OpenClipImageEncoder",
+    "l2_normalize",
+    "oriented_box_corners",
+    "rpy_to_matrix",
+    "transform_point",
+    "transform_points",
+    "world_aabb_from_obb",
+]
