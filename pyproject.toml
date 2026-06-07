@@ -14,7 +14,7 @@ dependencies = ["spatialmem", "numpy"]
 
 [project.optional-dependencies]
 clip = ["open-clip-torch", "torch", "pillow"]
-dev = ["pytest", "ruff"]
+dev = ["pytest", "pytest-cov", "ruff", "pyright"]
 
 [project.urls]
 Core = "https://github.com/wikieden/spatialmem"
@@ -24,6 +24,15 @@ packages = ["src/spatialmem_perception"]
 
 [tool.ruff]
 line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM", "PERF", "RUF"]
+
+[tool.pyright]
+include = ["src/spatialmem_perception"]
+pythonVersion = "3.10"
+typeCheckingMode = "standard"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -57,8 +57,8 @@ class OpenClipImageEncoder:
         device: str = "cpu",
     ) -> None:
         try:
-            import open_clip
-            import torch
+            import open_clip  # pyright: ignore[reportMissingImports]  # reason: optional [clip] extra; guarded by try/except
+            import torch  # pyright: ignore[reportMissingImports]  # reason: optional [clip] extra; guarded by try/except
         except ImportError as e:  # pragma: no cover - exercised only without extra
             raise ImportError(
                 "OpenClipImageEncoder needs the 'clip' extra: "
@@ -85,7 +85,8 @@ class OpenClipImageEncoder:
         return l2_normalize(feats.cpu().numpy())
 
     def encode_image(self, images: Sequence[np.ndarray]) -> np.ndarray:  # pragma: no cover
-        from PIL import Image
+        # reason: optional [clip] extra (pillow); resolved only with [clip] installed
+        from PIL import Image  # pyright: ignore[reportMissingImports]
 
         torch = self._torch
         batch = torch.stack(
