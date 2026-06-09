@@ -8,6 +8,7 @@ image-crop encoders live here so the core stays perception-free.
 
 from __future__ import annotations
 
+from .adapters import Box3D, BoxDetectorAdapter, Detector3D
 from .encoders import ImageEncoder, OpenClipImageEncoder, l2_normalize
 from .geometry import (
     oriented_box_corners,
@@ -20,6 +21,9 @@ from .geometry import (
 __version__ = "0.1.0a0"
 
 __all__ = [
+    "Box3D",
+    "BoxDetectorAdapter",
+    "Detector3D",
     "ImageEncoder",
     "OpenClipImageEncoder",
     "l2_normalize",
