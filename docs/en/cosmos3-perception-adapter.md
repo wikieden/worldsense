@@ -1,3 +1,5 @@
+> 🌐 **English** · [中文](../zh/cosmos3-perception-adapter.md)
+
 # Design — `Cosmos3PerceptionAdapter`
 
 **Status:** draft / GPU-blocked. **Repo:** `spatialmem-perception` (companion to

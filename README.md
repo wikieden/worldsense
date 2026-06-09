@@ -1,3 +1,5 @@
+> 🌐 **English** · [中文](README.zh.md)
+
 # spatialmem-perception
 
 Perception adapters for **[SpatialMem](https://github.com/wikieden/spatialmem)** —
@@ -14,7 +16,7 @@ turn RGB(-D) frames into world-frame `Detection`s the memory core can ingest.
 |---|---|
 | `geometry` — camera-frame oriented 3D box → world AABB lift (pure numpy) | ✅ |
 | `ImageEncoder` protocol + `OpenClipImageEncoder` (text+image towers) | ✅ (`[clip]`) |
-| `Cosmos3PerceptionAdapter` — Cosmos 3 Reasoner 3D boxes + ego-pose → `Detection` | ⬜ design (needs GPU) — see [docs/cosmos3-perception-adapter.md](docs/cosmos3-perception-adapter.md) |
+| `Cosmos3PerceptionAdapter` — Cosmos 3 Reasoner 3D boxes + ego-pose → `Detection` | ⬜ design (needs GPU) — see [docs/cosmos3-perception-adapter.md](docs/en/cosmos3-perception-adapter.md) |
 | `ConceptGraphsAdapter` (SAM + Grounding DINO + OpenCLIP) | ⬜ planned |
 
 All adapters implement the `spatialmem.PerceptionAdapter` protocol, so:
