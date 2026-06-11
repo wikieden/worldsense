@@ -1,7 +1,7 @@
 """Pure-numpy 3D geometry helpers for perception adapters.
 
 Lifts a camera-frame oriented 3D box (as a box-only detector produces) into the
-world-frame axis-aligned bbox a ``spatialmem.Detection`` carries.
+world-frame axis-aligned bbox a ``tempomem.Detection`` carries.
 
 Conventions: right-handed, meters. A ``pose`` is a 4x4 homogeneous
 **camera->world** transform. Orientation ``rpy`` = (roll, pitch, yaw) radians,
@@ -62,7 +62,7 @@ def world_aabb_from_obb(pose: np.ndarray, center: Vec3, size: Vec3, rpy: Vec3) -
     """Camera-frame oriented box -> world-frame axis-aligned bbox (min, max).
 
     Transforms the box's 8 corners by `pose` and takes the component-wise
-    min/max — the AABB a `spatialmem.Detection` bbox_min / bbox_max expects.
+    min/max — the AABB a `tempomem.Detection` bbox_min / bbox_max expects.
     """
     corners_world = transform_points(pose, oriented_box_corners(center, size, rpy))
     lo = corners_world.min(axis=0)

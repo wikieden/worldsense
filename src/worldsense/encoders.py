@@ -2,8 +2,8 @@
 
 A box-only detector (e.g. Cosmos 3) emits no per-object embedding. An
 `ImageEncoder` turns each object's image crop into the feature a
-`spatialmem.Detection` needs, in the SAME embedding space as the query encoder
-(`spatialmem.Encoder.encode_text`) so semantic query still aligns.
+`tempomem.Detection` needs, in the SAME embedding space as the query encoder
+(`tempomem.Encoder.encode_text`) so semantic query still aligns.
 
 `OpenClipImageEncoder` implements BOTH towers — pass one instance to
 `SpatialMemory.open(encoder=...)` (text, for query) and to a perception adapter
@@ -44,9 +44,9 @@ class ImageEncoder(Protocol):
 
 class OpenClipImageEncoder:
     """CLIP encoder with text + image towers. Requires `pip install
-    spatialmem-perception[clip]`. Lazy-imports open_clip/torch/PIL.
+    worldsense[clip]`. Lazy-imports open_clip/torch/PIL.
 
-    Satisfies `spatialmem.Encoder` (encode_text) AND `ImageEncoder`
+    Satisfies `tempomem.Encoder` (encode_text) AND `ImageEncoder`
     (encode_image), so a single instance serves both query and perception.
     """
 
@@ -62,7 +62,7 @@ class OpenClipImageEncoder:
         except ImportError as e:  # pragma: no cover - exercised only without extra
             raise ImportError(
                 "OpenClipImageEncoder needs the 'clip' extra: "
-                "pip install spatialmem-perception[clip]"
+                "pip install worldsense[clip]"
             ) from e
         self._torch = torch
         self._model, _, self._preprocess = open_clip.create_model_and_transforms(

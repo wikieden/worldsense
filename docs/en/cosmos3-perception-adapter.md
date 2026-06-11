@@ -2,15 +2,15 @@
 
 # Design — `Cosmos3PerceptionAdapter`
 
-**Status:** draft / GPU-blocked. **Repo:** `spatialmem-perception` (companion to
-the `spatialmem` memory core). **Depends on:** a CUDA box (Cosmos 3 Nano 16B /
+**Status:** draft / GPU-blocked. **Repo:** `worldsense` (companion to
+the `tempomem` memory core). **Depends on:** a CUDA box (Cosmos 3 Nano 16B /
 Super 64B) or a Cosmos NIM endpoint.
 
 ## Goal
 
-Let `spatialmem.SpatialMemory.add_frame(rgb, depth, pose)` use **NVIDIA Cosmos 3**
+Let `tempomem.SpatialMemory.add_frame(rgb, depth, pose)` use **NVIDIA Cosmos 3**
 as the perception backend. The adapter turns one posed RGB frame into
-`list[spatialmem.Detection]` in world coordinates, so the core's fusion → memory
+`list[tempomem.Detection]` in world coordinates, so the core's fusion → memory
 → query pipeline runs unchanged. The core ships only the `PerceptionAdapter`
 protocol; this adapter (and the geometry lift + image encoder it uses) lives
 here.
@@ -27,13 +27,13 @@ feature vector (Cosmos emits none), (3) parse the JSON robustly.
 ## Contract
 
 ```python
-# spatialmem (core) — the seam
+# tempomem (core) — the seam
 class PerceptionAdapter(Protocol):
     def process_frame(self, rgb, depth, pose, intrinsics=None) -> list[Detection]: ...
 
 # this repo provides the pieces:
-from spatialmem_perception.geometry import world_aabb_from_obb, transform_point
-from spatialmem_perception.encoders import OpenClipImageEncoder  # ImageEncoder
+from worldsense.geometry import world_aabb_from_obb, transform_point
+from worldsense.encoders import OpenClipImageEncoder  # ImageEncoder
 ```
 
 ## Pipeline (`process_frame`)
@@ -53,13 +53,13 @@ rgb ──► Cosmos 3 Reasoner (NIM or local Cosmos3OmniPipeline)
                aux={"source":"cosmos3", "orient": rpy, "box2d": (...)})
 ```
 
-Pure-numpy geometry (`spatialmem_perception.geometry`) is CPU-testable with a
+Pure-numpy geometry (`worldsense.geometry`) is CPU-testable with a
 fake reasoner; only the Cosmos call needs a GPU.
 
 ## Interface sketch
 
 ```python
-class Cosmos3PerceptionAdapter:  # implements spatialmem.PerceptionAdapter
+class Cosmos3PerceptionAdapter:  # implements tempomem.PerceptionAdapter
     def __init__(self, *, reasoner, encoder, pose_source="arg", confidence=0.8,
                  grounding_prompt=_DEFAULT, transport=None): ...
     def process_frame(self, rgb, depth, pose, intrinsics=None) -> list[Detection]:
@@ -86,7 +86,7 @@ are required.
 
 - Inject a fake `reasoner`/`transport` returning canned JSON boxes.
 - Assert parse → world-frame transform (known pose) → `Detection` with correct
-  `center_xyz` / AABB; feature L2-norm; bad JSON → `spatialmem.AdapterError`.
+  `center_xyz` / AABB; feature L2-norm; bad JSON → `tempomem.AdapterError`.
 - Geometry helpers already unit-tested (`tests/test_geometry.py`).
 
 ## Alternatives in this repo

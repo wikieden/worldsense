@@ -2,11 +2,11 @@
 
 # 设计 — `Cosmos3PerceptionAdapter`
 
-**状态：** 草稿 / GPU 待验证。**仓库：** `spatialmem-perception`（`spatialmem` 记忆核心的配套模块）。**依赖：** 一台 CUDA 机器（Cosmos 3 Nano 16B / Super 64B）或 Cosmos NIM 端点。
+**状态：** 草稿 / GPU 待验证。**仓库：** `worldsense`（`tempomem` 记忆核心的配套模块）。**依赖：** 一台 CUDA 机器（Cosmos 3 Nano 16B / Super 64B）或 Cosmos NIM 端点。
 
 ## 目标
 
-使 `spatialmem.SpatialMemory.add_frame(rgb, depth, pose)` 能够以 **NVIDIA Cosmos 3** 作为感知后端。该适配器将一帧带位姿的 RGB 图像转换为世界坐标系下的 `list[spatialmem.Detection]`，从而使核心的融合 → 记忆 → 查询流程保持不变。核心库仅提供 `PerceptionAdapter` 协议；本适配器（以及其所使用的几何提升模块和图像编码器）位于此仓库中。
+使 `tempomem.SpatialMemory.add_frame(rgb, depth, pose)` 能够以 **NVIDIA Cosmos 3** 作为感知后端。该适配器将一帧带位姿的 RGB 图像转换为世界坐标系下的 `list[tempomem.Detection]`，从而使核心的融合 → 记忆 → 查询流程保持不变。核心库仅提供 `PerceptionAdapter` 协议；本适配器（以及其所使用的几何提升模块和图像编码器）位于此仓库中。
 
 ## 为何切实可行（2026-06 调研结论）
 
@@ -15,13 +15,13 @@ Cosmos 3 技术报告指出：Reasoner 输出**结构化的相机坐标系 3D �
 ## 接口约定
 
 ```python
-# spatialmem (core) — the seam
+# tempomem (core) — the seam
 class PerceptionAdapter(Protocol):
     def process_frame(self, rgb, depth, pose, intrinsics=None) -> list[Detection]: ...
 
 # this repo provides the pieces:
-from spatialmem_perception.geometry import world_aabb_from_obb, transform_point
-from spatialmem_perception.encoders import OpenClipImageEncoder  # ImageEncoder
+from worldsense.geometry import world_aabb_from_obb, transform_point
+from worldsense.encoders import OpenClipImageEncoder  # ImageEncoder
 ```
 
 ## 处理流程（`process_frame`）
@@ -41,12 +41,12 @@ rgb ──► Cosmos 3 Reasoner (NIM or local Cosmos3OmniPipeline)
                aux={"source":"cosmos3", "orient": rpy, "box2d": (...)})
 ```
 
-纯 numpy 几何模块（`spatialmem_perception.geometry`）可在 CPU 上配合伪 reasoner 进行测试；仅 Cosmos 调用部分需要 GPU。
+纯 numpy 几何模块（`worldsense.geometry`）可在 CPU 上配合伪 reasoner 进行测试；仅 Cosmos 调用部分需要 GPU。
 
 ## 接口草图
 
 ```python
-class Cosmos3PerceptionAdapter:  # implements spatialmem.PerceptionAdapter
+class Cosmos3PerceptionAdapter:  # implements tempomem.PerceptionAdapter
     def __init__(self, *, reasoner, encoder, pose_source="arg", confidence=0.8,
                  grounding_prompt=_DEFAULT, transport=None): ...
     def process_frame(self, rgb, depth, pose, intrinsics=None) -> list[Detection]:
@@ -69,7 +69,7 @@ class Cosmos3PerceptionAdapter:  # implements spatialmem.PerceptionAdapter
 ## 离线测试方案（无 GPU）
 
 - 注入伪 `reasoner`/`transport`，返回预置的 JSON 包围盒。
-- 断言：解析 → 世界坐标系变换（已知位姿）→ `Detection` 具有正确的 `center_xyz` / AABB；特征 L2 范数；非法 JSON → `spatialmem.AdapterError`。
+- 断言：解析 → 世界坐标系变换（已知位姿）→ `Detection` 具有正确的 `center_xyz` / AABB；特征 L2 范数；非法 JSON → `tempomem.AdapterError`。
 - 几何辅助函数已有单元测试（`tests/test_geometry.py`）。
 
 ## 本仓库中的备选方案

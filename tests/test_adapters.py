@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import numpy as np
 import pytest
-import spatialmem
+import tempomem
 
-from spatialmem_perception.adapters import Box3D, BoxDetectorAdapter, Detector3D
+from worldsense.adapters import Box3D, BoxDetectorAdapter, Detector3D
 
 
 class _StubDetector:
@@ -51,7 +51,7 @@ def test_stub_satisfies_detector_protocol():
 
 def test_adapter_satisfies_perception_adapter_protocol():
     ad = BoxDetectorAdapter(_StubDetector([]), _HashImageEncoder())
-    assert isinstance(ad, spatialmem.PerceptionAdapter)
+    assert isinstance(ad, tempomem.PerceptionAdapter)
 
 
 def test_empty_detector_returns_no_detections():

@@ -1,4 +1,4 @@
-"""Perception adapters: a posed RGB-D frame -> world-frame ``spatialmem.Detection``.
+"""Perception adapters: a posed RGB-D frame -> world-frame ``tempomem.Detection``.
 
 The concrete open-vocab detector (NVIDIA Cosmos 3 Reasoner, or the ConceptGraphs
 stack — SAM + Grounding DINO + OpenCLIP) is heavy and GPU-bound, so it is
@@ -19,14 +19,14 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Protocol, runtime_checkable
 
 import numpy as np
-from spatialmem import Detection
+from tempomem import Detection
 
 from .geometry import transform_point, world_aabb_from_obb
 
 if TYPE_CHECKING:
     from .encoders import ImageEncoder
 
-_log = logging.getLogger("spatialmem_perception.adapters")
+_log = logging.getLogger("worldsense.adapters")
 
 Vec3 = tuple[float, float, float]
 
@@ -69,10 +69,10 @@ class Detector3D(Protocol):
 
 
 class BoxDetectorAdapter:
-    """A ``spatialmem.PerceptionAdapter`` from an injected detector + encoder.
+    """A ``tempomem.PerceptionAdapter`` from an injected detector + encoder.
 
     ``process_frame`` runs the detector to get camera-frame boxes, lifts each to
-    a world-frame AABB + center via :mod:`spatialmem_perception.geometry`, and
+    a world-frame AABB + center via :mod:`worldsense.geometry`, and
     encodes its image crop into the per-object feature via an ``ImageEncoder``.
     Pure-numpy; the only heavy parts are the injected ``detector`` / ``encoder``,
     so the adapter is fully CPU-testable with stubs.

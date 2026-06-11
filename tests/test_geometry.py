@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from spatialmem_perception.geometry import (
+from worldsense.geometry import (
     oriented_box_corners,
     rpy_to_matrix,
     transform_point,

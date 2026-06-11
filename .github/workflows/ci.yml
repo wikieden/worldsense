@@ -28,7 +28,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      # `spatialmem` is not on PyPI yet; the shipped tests (geometry) need only
+      # `tempomem` is not on PyPI yet; the shipped tests (geometry) need only
       # numpy. Run with src on the path. Switch to `pip install -e .[dev]` once
       # the core publishes.
       - run: pip install numpy pytest

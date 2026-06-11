@@ -1,7 +1,7 @@
-"""spatialmem-perception — perception adapters for SpatialMem.
+"""worldsense — perception adapters for Chronotope.
 
-Companion to the numpy-only `spatialmem` memory core. Turns RGB(-D) frames into
-world-frame `spatialmem.Detection`s via the `spatialmem.PerceptionAdapter` seam.
+Companion to the numpy-only `tempomem` memory core. Turns RGB(-D) frames into
+world-frame `tempomem.Detection`s via the `tempomem.PerceptionAdapter` seam.
 Concrete adapters (Cosmos 3, ConceptGraphs) + the camera->world geometry lift +
 image-crop encoders live here so the core stays perception-free.
 """

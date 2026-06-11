@@ -1,11 +1,11 @@
 > 🌐 **English** · [中文](README.zh.md)
 
-# spatialmem-perception
+# worldsense
 
-Perception adapters for **[SpatialMem](https://github.com/wikieden/spatialmem)** —
+Perception adapters for **[Chronotope](https://github.com/wikieden/tempomem)** —
 turn RGB(-D) frames into world-frame `Detection`s the memory core can ingest.
 
-> **Why a separate repo?** SpatialMem core is a *memory* layer (like Mem0 is for
+> **Why a separate repo?** Chronotope core is a *memory* layer (like Mem0 is for
 > text) and stays numpy-only. Recognition is not its job. All concrete
 > perception — open-vocab detectors, the camera→world geometry lift, image-crop
 > feature encoding — lives here, behind heavy GPU deps, so the core stays light.
@@ -19,7 +19,7 @@ turn RGB(-D) frames into world-frame `Detection`s the memory core can ingest.
 | `Cosmos3PerceptionAdapter` — Cosmos 3 Reasoner 3D boxes + ego-pose → `Detection` | ⬜ design (needs GPU) — see [docs/cosmos3-perception-adapter.md](docs/en/cosmos3-perception-adapter.md) |
 | `ConceptGraphsAdapter` (SAM + Grounding DINO + OpenCLIP) | ⬜ planned |
 
-All adapters implement the `spatialmem.PerceptionAdapter` protocol, so:
+All adapters implement the `tempomem.PerceptionAdapter` protocol, so:
 
 ```python
 mem.add_frame(rgb, depth, pose, adapter=my_adapter)  # adapter -> Detections -> fusion
@@ -28,16 +28,16 @@ mem.add_frame(rgb, depth, pose, adapter=my_adapter)  # adapter -> Detections -> 
 ## Install
 
 ```bash
-pip install spatialmem-perception          # core (numpy)
-pip install spatialmem-perception[clip]    # + open-clip / torch / pillow
+pip install worldsense          # core (numpy)
+pip install worldsense[clip]    # + open-clip / torch / pillow
 ```
 
 ## Relationship to the core
 
-`spatialmem-perception` **depends on** `spatialmem`. The core owns the seam
+`worldsense` **depends on** `tempomem`. The core owns the seam
 (`PerceptionAdapter`), the memory, and query; this repo fills in the eyes. See
-the full system design — Cosmos 3 + SpatialMem + LLM "brain" — in the core repo
-at `docs/design/cosmos3-spatialmem-llm-brain.md`.
+the full system design — Cosmos 3 + Chronotope + LLM "brain" — in the core repo
+at `docs/design/cosmos3-tempomem-llm-brain.md`.
 
 ## License
 
