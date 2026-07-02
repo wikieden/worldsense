@@ -6,7 +6,7 @@ A box-only detector (e.g. Cosmos 3) emits no per-object embedding. An
 (`tempomem.Encoder.encode_text`) so semantic query still aligns.
 
 `OpenClipImageEncoder` implements BOTH towers — pass one instance to
-`SpatialMemory.open(encoder=...)` (text, for query) and to a perception adapter
+`TempoMem.open(encoder=...)` (text, for query) and to a perception adapter
 (image, for per-object features). Requires the `clip` extra.
 """
 

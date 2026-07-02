@@ -6,7 +6,7 @@
 
 ## 目标
 
-使 `tempomem.SpatialMemory.add_frame(rgb, depth, pose)` 能够以 **NVIDIA Cosmos 3** 作为感知后端。该适配器将一帧带位姿的 RGB 图像转换为世界坐标系下的 `list[tempomem.Detection]`，从而使核心的融合 → 记忆 → 查询流程保持不变。核心库仅提供 `PerceptionAdapter` 协议；本适配器（以及其所使用的几何提升模块和图像编码器）位于此仓库中。
+使 `tempomem.TempoMem.add_frame(rgb, depth, pose)` 能够以 **NVIDIA Cosmos 3** 作为感知后端。该适配器将一帧带位姿的 RGB 图像转换为世界坐标系下的 `list[tempomem.Detection]`，从而使核心的融合 → 记忆 → 查询流程保持不变。核心库仅提供 `PerceptionAdapter` 协议；本适配器（以及其所使用的几何提升模块和图像编码器）位于此仓库中。
 
 ## 为何切实可行（2026-06 调研结论）
 

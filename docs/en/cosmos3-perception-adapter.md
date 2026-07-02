@@ -8,7 +8,7 @@ Super 64B) or a Cosmos NIM endpoint.
 
 ## Goal
 
-Let `tempomem.SpatialMemory.add_frame(rgb, depth, pose)` use **NVIDIA Cosmos 3**
+Let `tempomem.TempoMem.add_frame(rgb, depth, pose)` use **NVIDIA Cosmos 3**
 as the perception backend. The adapter turns one posed RGB frame into
 `list[tempomem.Detection]` in world coordinates, so the core's fusion → memory
 → query pipeline runs unchanged. The core ships only the `PerceptionAdapter`
