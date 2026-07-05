@@ -17,6 +17,7 @@ from .geometry import (
     transform_points,
     world_aabb_from_obb,
 )
+from .vlm import VLMDetector, qwen_vl_transport
 
 __version__ = "0.1.0a0"
 
@@ -26,8 +27,10 @@ __all__ = [
     "Detector3D",
     "ImageEncoder",
     "OpenClipImageEncoder",
+    "VLMDetector",
     "l2_normalize",
     "oriented_box_corners",
+    "qwen_vl_transport",
     "rpy_to_matrix",
     "transform_point",
     "transform_points",
